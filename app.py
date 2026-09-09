@@ -134,31 +134,55 @@ elif page == "🧴 Product & Brand":
         ["Top Viewed Products", "Top Purchased Products", "Top Brands"]
     )
 
-    with tab1:
-        df = data["top_views"].copy()
-        st.dataframe(df, use_container_width=True, hide_index=True)
-        fig = px.bar(
-            df.sort_values("view_count"),
-            x="view_count",
-            y="product_id",
-            orientation="h",
-            text_auto=".2s",
-            title="Top 10 Viewed Products",
-        )
-        st.plotly_chart(fig, use_container_width=True)
+   with tab1:
+    df = data["top_views"].copy()
 
-    with tab2:
-        df = data["top_purchases"].copy()
-        st.dataframe(df, use_container_width=True, hide_index=True)
-        fig = px.bar(
-            df.sort_values("revenue"),
-            x="revenue",
-            y="product_id",
-            orientation="h",
-            text_auto=".2f",
-            title="Top 10 Products by Purchase Revenue",
-        )
-        st.plotly_chart(fig, use_container_width=True)
+    # Treat product_id as categorical rather than numeric
+    df["product_id"] = df["product_id"].astype(str)
+
+    st.dataframe(df, use_container_width=True, hide_index=True)
+
+    fig = px.bar(
+        df.sort_values("view_count"),
+        x="view_count",
+        y="product_id",
+        orientation="h",
+        text_auto=".2s",
+        title="Top 10 Viewed Products",
+    )
+
+    fig.update_layout(
+        xaxis_title="Number of Views",
+        yaxis_title="Product ID",
+        yaxis=dict(type="category"),
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+   with tab2:
+    df = data["top_purchases"].copy()
+
+    # Treat product_id as categorical
+    df["product_id"] = df["product_id"].astype(str)
+
+    st.dataframe(df, use_container_width=True, hide_index=True)
+
+    fig = px.bar(
+        df.sort_values("revenue"),
+        x="revenue",
+        y="product_id",
+        orientation="h",
+        text_auto=".2f",
+        title="Top 10 Products by Purchase Revenue",
+    )
+
+    fig.update_layout(
+        xaxis_title="Purchase Revenue",
+        yaxis_title="Product ID",
+        yaxis=dict(type="category"),
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
 
     with tab3:
         df = data["brands"].copy()
@@ -198,10 +222,22 @@ elif page == "👥 Customer Segmentation":
     fig.update_layout(xaxis_title="K", yaxis_title="Silhouette Score")
     st.plotly_chart(fig, use_container_width=True)
 
-    st.markdown("### Segment Profile")
-    seg = data["segments"].copy()
-    st.dataframe(seg, use_container_width=True, hide_index=True)
+   st.markdown("### Segment Profile")
 
+seg = data["segments"].copy()
+
+# Hide the event-based conversion rate because it can exceed 100%
+# when calculated from purchase events / view events.
+display_seg = seg.drop(
+    columns=["avg_conversion_rate"],
+    errors="ignore"
+)
+
+st.dataframe(
+    display_seg,
+    use_container_width=True,
+    hide_index=True
+)
     fig = px.bar(
         seg,
         x="cluster",
