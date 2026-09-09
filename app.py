@@ -134,7 +134,7 @@ elif page == "🧴 Product & Brand":
         ["Top Viewed Products", "Top Purchased Products", "Top Brands"]
     )
 
-   with tab1:
+    with tab1:
     df = data["top_views"].copy()
 
     # Treat product_id as categorical rather than numeric
@@ -159,7 +159,7 @@ elif page == "🧴 Product & Brand":
 
     st.plotly_chart(fig, use_container_width=True)
 
-   with tab2:
+    with tab2:
     df = data["top_purchases"].copy()
 
     # Treat product_id as categorical
