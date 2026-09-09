@@ -222,22 +222,22 @@ elif page == "👥 Customer Segmentation":
     fig.update_layout(xaxis_title="K", yaxis_title="Silhouette Score")
     st.plotly_chart(fig, use_container_width=True)
 
-   st.markdown("### Segment Profile")
+    st.markdown("### Segment Profile")
 
-seg = data["segments"].copy()
+    seg = data["segments"].copy()
 
-# Hide the event-based conversion rate because it can exceed 100%
-# when calculated from purchase events / view events.
-display_seg = seg.drop(
-    columns=["avg_conversion_rate"],
-    errors="ignore"
-)
+    # Hide the event-based conversion rate because it can exceed 100%
+    # when calculated from purchase events / view events.
+    display_seg = seg.drop(
+        columns=["avg_conversion_rate"],
+        errors="ignore"
+    )
 
-st.dataframe(
-    display_seg,
-    use_container_width=True,
-    hide_index=True
-)
+    st.dataframe(
+        display_seg,
+        use_container_width=True,
+        hide_index=True
+    )
     fig = px.bar(
         seg,
         x="cluster",
