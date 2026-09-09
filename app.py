@@ -135,54 +135,54 @@ elif page == "🧴 Product & Brand":
     )
 
     with tab1:
-    df = data["top_views"].copy()
+        df = data["top_views"].copy()
 
-    # Treat product_id as categorical rather than numeric
-    df["product_id"] = df["product_id"].astype(str)
+        # Treat product_id as categorical rather than numeric
+        df["product_id"] = df["product_id"].astype(str)
 
-    st.dataframe(df, use_container_width=True, hide_index=True)
+        st.dataframe(df, use_container_width=True, hide_index=True)
 
-    fig = px.bar(
-        df.sort_values("view_count"),
-        x="view_count",
-        y="product_id",
-        orientation="h",
-        text_auto=".2s",
-        title="Top 10 Viewed Products",
-    )
+        fig = px.bar(
+            df.sort_values("view_count"),
+            x="view_count",
+            y="product_id",
+            orientation="h",
+            text_auto=".2s",
+            title="Top 10 Viewed Products",
+        )
 
-    fig.update_layout(
-        xaxis_title="Number of Views",
-        yaxis_title="Product ID",
-        yaxis=dict(type="category"),
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(
+            xaxis_title="Number of Views",
+            yaxis_title="Product ID",
+            yaxis=dict(type="category"),
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
 
     with tab2:
-    df = data["top_purchases"].copy()
+        df = data["top_purchases"].copy()
 
-    # Treat product_id as categorical
-    df["product_id"] = df["product_id"].astype(str)
+        # Treat product_id as categorical
+        df["product_id"] = df["product_id"].astype(str)
 
-    st.dataframe(df, use_container_width=True, hide_index=True)
+        st.dataframe(df, use_container_width=True, hide_index=True)
 
-    fig = px.bar(
-        df.sort_values("revenue"),
-        x="revenue",
-        y="product_id",
-        orientation="h",
-        text_auto=".2f",
-        title="Top 10 Products by Purchase Revenue",
-    )
+        fig = px.bar(
+            df.sort_values("revenue"),
+            x="revenue",
+            y="product_id",
+            orientation="h",
+            text_auto=".2f",
+            title="Top 10 Products by Purchase Revenue",
+        )
 
-    fig.update_layout(
-        xaxis_title="Purchase Revenue",
-        yaxis_title="Product ID",
-        yaxis=dict(type="category"),
-    )
+        fig.update_layout(
+            xaxis_title="Purchase Revenue",
+            yaxis_title="Product ID",
+            yaxis=dict(type="category"),
+        )
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
     with tab3:
         df = data["brands"].copy()
